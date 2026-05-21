@@ -43,6 +43,19 @@
     - "It's common to want to call a series of functions, passing the result of one to the next. (...) pipe operator `|>` helps with this problem by allowing you to write code top-to-bottom."
     - "It will first check to see if the left-hand value could be used as the first argument to the call. For example, `a |> b(1, 2)` would become `b(a, 1, 2)`. If not, it falls back to calling the result of the right-hand side as a function, e.g., `b(1, 2)(a)`"
     - "If you need to debug print a value in the middle of a pipeline you can use `|> echo` to do it."
+  - "To help with this Gleam supports labelled arguments, where function arguments are given an external label in addition to their internal name. These labels are written before the argument name in the function definition."
+    - `fn calculate(value: Int, add addend: Int, multiply multiplier: Int) {`
+    - ` echo calculate(1, add: 2, multiply: 3)`
+    - "(...) all unlabelled arguments must come before labelled arguments."
+    - "There is no performance cost to using labelled arguments, it does not allocate a dictionary or perform any other runtime work."
+    - Label shorthand syntax ("When local variables have the same names as a function's labelled arguments (...)"): `echo calculate_total_cost(quantity:, unit_price:, discount:)`
+  - "The case expression is the most common kind of flow control in Gleam code. It is similar to `switch` in some other languages (...)"
+    - "Gleam performs _exhaustiveness checking_ to ensure that the patterns in a case expression cover all possible values."
+    - "When pattern matching on strings the `<>` operator can be used to match on strings with a specific prefix."
+      - "The pattern `"Hello, " <> name` matches any string that starts with `"Hello, "` and assigns the rest of the string to the variable `name`."
+    - "Lists and the values they contain can be pattern matched on in case expressions."
+      - "The list append pattern `..` can be used to match the rest of the list."
+  - "Gleam doesn't have loops, instead iteration is done through recursion, that is through top-level functions calling themselves with different arguments."
 - https://gleam.run/install/
   - https://gleam.run/install/macos/gleam/asdf/
 - https://gleam.run/install/macos/editor/
@@ -61,4 +74,32 @@
 
 ```bash
 mise uninstall --all
+```
+
+## Snippets
+
+```gleam
+pub fn main() {
+  echo factorial(5)
+  echo factorial(7)
+}
+
+// A recursive functions that calculates factorial
+pub fn factorial(x: Int) -> Int {
+  case x {
+    // Base case
+    0 -> 1
+    1 -> 1
+
+    // Recursive case
+    _ -> x * factorial(step_towards_zero(x))
+  }
+}
+
+fn step_towards_zero(x: Int) -> Int {
+  case x >= 0 {
+    True -> x - 1
+    False -> x + 1
+  }
+}
 ```
