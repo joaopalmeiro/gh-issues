@@ -55,7 +55,17 @@
       - "The pattern `"Hello, " <> name` matches any string that starts with `"Hello, "` and assigns the rest of the string to the variable `name`."
     - "Lists and the values they contain can be pattern matched on in case expressions."
       - "The list append pattern `..` can be used to match the rest of the list."
+    - "(...) you can give multiple subjects and multiple patterns, separated by commas."
+    - "Alternative patterns can be given for a case clause using the `|` operator. If any of the patterns match then the clause matches."
+    - "The `as` operator can be used to assign sub patterns to variables."
+    - "The `if` keyword can be used with case expressions to add a _guard_ to a pattern. A guard is an expression that must evaluate to `True` for the pattern to match."
+      - "Guard expressions _cannot_ contain function calls, case expressions, or blocks."
   - "Gleam doesn't have loops, instead iteration is done through recursion, that is through top-level functions calling themselves with different arguments."
+  - "Lists are good for when we want a collection of one type, but sometimes we want to combine multiple values of different types. In this case tuples are a quick and convenient option."
+  - "Tuples are most commonly used to return 2 or 3 values from a function. Often it is clearer to use a _custom type_ where a tuple could be used."
+  - "A variant of a custom type can hold other data within it. In this case the variant is called a record."
+    - "It is common to have a custom type with one variant that holds data, this is the Gleam equivalent of a struct or object in other languages."
+  - "The accessor syntax can always be used for fields with the same name that are in the same position and have the same type for all variants of the custom type. Other fields can only be accessed when the compiler can tell which variant the value is, such as after pattern matching in a `case` expression."
 - https://gleam.run/install/
   - https://gleam.run/install/macos/gleam/asdf/
 - https://gleam.run/install/macos/editor/
@@ -100,6 +110,31 @@ fn step_towards_zero(x: Int) -> Int {
   case x >= 0 {
     True -> x - 1
     False -> x + 1
+  }
+}
+```
+
+vs.
+
+```gleam
+pub fn main() {
+  echo factorial(5)
+  echo factorial(7)
+}
+
+pub fn factorial(x: Int) -> Int {
+  // The public function calls the private tail recursive function
+  factorial_loop(x, 1)
+}
+
+fn factorial_loop(x: Int, accumulator: Int) -> Int {
+  case x {
+    0 -> accumulator
+    1 -> accumulator
+
+    // The last thing this function does is call itself
+    // In the previous lesson the last thing it did was multiply two ints
+    _ -> factorial_loop(x - 1, accumulator * x)
   }
 }
 ```
