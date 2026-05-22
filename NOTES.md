@@ -123,6 +123,23 @@
   - https://github.com/lpil/snag
   - https://hexdocs.pm/gleam_stdlib/gleam/dict.html#get
 - https://hexdocs.pm/gleam_http/4.3.0/gleam/http/request.html#new
+- https://github.com/renatillas/gleam/blob/78df2fa64a68783f5f80645117e28e6348bc5384/rules/coding-standards.md
+- https://github.com/gleam-lang/json
+  - https://hexdocs.pm/gleam_json/gleam/json.html
+- https://hexdocs.pm/gleam_stdlib/gleam/list.html#filter_map
+- https://www.danielbark.com/blog/http-in-gleam/
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Link#pagination_through_links
+- https://hexdocs.pm/gleam_stdlib/gleam/option.html#from_result
+- https://hexdocs.pm/gleam_stdlib/gleam/int.html#range
+- https://josh.is-cool.dev/a-brief-interlude-into-gleam-concurrency/
+- https://olano.dev/blog/gleam-coming-from-erlang/
+- https://hexdocs.pm/gleam_erlang/gleam/erlang/process.html#spawn_unlinked:
+  - https://hexdocs.pm/gleam_erlang/gleam/erlang/process.html#spawn
+  - "Create a new Erlang process that runs concurrently to the creator. In other languages this might be called a fibre, a green thread, or a coroutine."
+- https://hexdocs.pm/gleam_erlang/gleam/erlang/process.html#send
+- https://hexdocs.pm/gleam_erlang/gleam/erlang/process.html#receive
+  - "The `within` parameter specifies the timeout duration in milliseconds."
+- https://isaac.zone/articles/simplifile_gleam
 
 ## Commands
 
