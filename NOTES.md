@@ -96,6 +96,8 @@
     - "It's possible for a function to have both a Gleam implementation and an external implementation."
 - https://gleam.run/install/
   - https://gleam.run/install/macos/gleam/asdf/
+  - https://github.com/Homebrew/homebrew-core/blob/a275516112bbff26ff5c4d6a99fcf261290ade70/Formula/g/gleam.rb
+  - https://www.erlang.org/
 - https://gleam.run/install/macos/editor/
 - https://gleam.run/writing-gleam/
 - https://mise-tools.jdx.dev/tools/gleam
@@ -108,11 +110,18 @@
 - https://gleam.run/command-line-reference/
   - `gleam export erlang-shipment`: "Precompiled Erlang, suitable for deployment"
 - https://hex.pm/
+- https://gleam.run/writing-gleam/gleam-toml/
+  - https://hexdocs.pm/elixir/Version.html#module-requirements
+- https://github.com/catppuccin/gleam
 
 ## Commands
 
 ```bash
 mise uninstall --all
+```
+
+```bash
+gleam new gh_issues
 ```
 
 ## Snippets

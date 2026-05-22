@@ -1,0 +1,14 @@
+name = "gh_issues"
+version = "0.0.0"
+licences = ["MIT"]
+description = "A CLI to back up all your GitHub issues."
+gleam = "== 1.16.0"
+target = "erlang"
+
+[dependencies]
+gleam_stdlib = "== 1.0.2"
+
+[repository]
+type = "github"
+user = "joaopalmeiro"
+repo = "gh-issues"
