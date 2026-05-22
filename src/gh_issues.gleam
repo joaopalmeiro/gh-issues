@@ -226,56 +226,14 @@ fn fetch_issues(
   token: String,
   full_name: String,
 ) -> Result(List(Issue), AppError) {
-  use resp <- result.try(
-    issues_request(token, full_name, 1)
-    |> httpc.send
-    |> result.map_error(HttpError),
-  )
-
-  use data <- result.try(
-    json.parse(resp.body, decode.list(issue_decoder()))
-    |> result.map_error(DecodeError),
-  )
-
-  let first_page =
-    list.filter_map(data, fn(pair) {
-      let #(issue, pull_request) = pair
-      case option.is_none(pull_request) {
-        True -> Ok(issue)
-        False -> Error(Nil)
-      }
-    })
-
-  case parse_link_rel(resp.headers, "last") {
-    option.None -> Ok(first_page)
-    option.Some(last) -> {
-      let parent = process.new_subject()
-      let pages = int.range(from: 2, to: last + 1, with: [], run: list.prepend)
-
-      list.each(pages, fn(p) {
-        process.spawn_unlinked(fn() {
-          process.send(parent, fetch_issues_page(token, full_name, p))
-        })
-      })
-
-      use remaining <- result.try(
-        list.try_fold(over: pages, from: [], with: fn(acc, _) {
-          case process.receive(from: parent, within: 30_000) {
-            Ok(Ok(issues)) -> Ok(list.append(acc, issues))
-            Ok(Error(e)) -> Error(e)
-            Error(Nil) -> Error(Timeout)
-          }
-        }),
-      )
-      Ok(list.append(first_page, remaining))
-    }
-  }
+  fetch_issues_page(token, full_name, 1, [])
 }
 
 fn fetch_issues_page(
   token: String,
   full_name: String,
   page: Int,
+  acc: List(Issue),
 ) -> Result(List(Issue), AppError) {
   use resp <- result.try(
     issues_request(token, full_name, page)
@@ -288,36 +246,50 @@ fn fetch_issues_page(
     |> result.map_error(DecodeError),
   )
 
-  Ok(
+  let page_issues =
     list.filter_map(data, fn(pair) {
       let #(issue, pull_request) = pair
       case option.is_none(pull_request) {
         True -> Ok(issue)
         False -> Error(Nil)
       }
-    }),
-  )
+    })
+
+  let all = list.append(acc, page_issues)
+
+  case parse_link_rel(resp.headers, "next") {
+    option.None -> Ok(all)
+    option.Some(next) -> fetch_issues_page(token, full_name, next, all)
+  }
 }
 
 fn fetch_all_issues(
   token: String,
   repos: List(Repo),
 ) -> Result(List(RepoIssues), AppError) {
-  let parent = process.new_subject()
+  repos
+  |> list.sized_chunk(100)
+  |> list.try_fold(from: [], with: fn(acc, batch) {
+    let parent = process.new_subject()
 
-  list.each(repos, fn(repo) {
-    process.spawn_unlinked(fn() {
-      process.send(parent, #(repo, fetch_issues(token, repo.full_name)))
+    list.each(batch, fn(repo) {
+      process.spawn_unlinked(fn() {
+        process.send(parent, #(repo, fetch_issues(token, repo.full_name)))
+      })
     })
-  })
 
-  list.try_fold(over: repos, from: [], with: fn(acc, _) {
-    case process.receive(from: parent, within: 30_000) {
-      Ok(#(repo, Ok(issues))) ->
-        Ok([RepoIssues(repo: repo.full_name, issues: issues), ..acc])
-      Ok(#(_, Error(e))) -> Error(e)
-      Error(Nil) -> Error(Timeout)
-    }
+    list.try_fold(over: batch, from: acc, with: fn(batch_acc, _) {
+      case process.receive(from: parent, within: 30_000) {
+        Ok(#(repo, Ok(issues))) ->
+          Ok(
+            list.append(batch_acc, [
+              RepoIssues(repo: repo.full_name, issues: issues),
+            ]),
+          )
+        Ok(#(_, Error(e))) -> Error(e)
+        Error(Nil) -> Error(Timeout)
+      }
+    })
   })
 }
 
