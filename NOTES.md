@@ -144,6 +144,7 @@
 - `io.println(int.to_string(resp.status))`
 - `io.println(resp.body)`
 - `io.println(string.inspect(first_page))`
+- https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2026-03-10#about-secondary-rate-limits
 
 ## Commands
 

@@ -142,9 +142,10 @@ fn issue_decoder() -> decode.Decoder(#(Issue, option.Option(PullRequest))) {
   use number <- decode.field("number", decode.int)
   use title <- decode.field("title", decode.string)
   use body <- decode.field("body", decode.optional(decode.string))
-  use pull_request <- decode.field(
+  use pull_request <- decode.optional_field(
     "pull_request",
-    decode.optional(pull_request_decoder()),
+    option.None,
+    decode.map(pull_request_decoder(), option.Some),
   )
   decode.success(#(
     Issue(number: number, title: title, body: body),
