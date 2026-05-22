@@ -11,12 +11,14 @@ import gleam/list
 import gleam/option
 import gleam/result
 import gleam/string
+import simplifile
 
 type AppError {
-  MissingToken
-  HttpError(httpc.HttpError)
   DecodeError(json.DecodeError)
+  HttpError(httpc.HttpError)
+  MissingToken
   Timeout
+  WriteError(simplifile.FileError)
 }
 
 type Repo {
@@ -323,6 +325,27 @@ fn fetch_all_issues(
   })
 }
 
+fn encode_issue(issue: Issue) -> json.Json {
+  json.object([
+    #("number", json.int(issue.number)),
+    #("title", json.string(issue.title)),
+    #("body", case issue.body {
+      option.Some(s) -> json.string(s)
+      option.None -> json.null()
+    }),
+  ])
+}
+
+fn encode_backup(repo_issues: List(RepoIssues)) -> String {
+  json.array(repo_issues, fn(ri) {
+    json.object([
+      #("repository", json.string(ri.repo)),
+      #("issues", json.array(ri.issues, encode_issue)),
+    ])
+  })
+  |> json.to_string
+}
+
 fn run() -> Result(Nil, AppError) {
   use token <- result.try(
     envoy.get("GITHUB_TOKEN") |> result.replace_error(MissingToken),
@@ -331,7 +354,9 @@ fn run() -> Result(Nil, AppError) {
   use repos <- result.try(fetch_repos(token))
 
   use repos_issues <- result.try(fetch_all_issues(token, repos))
-  todo
+
+  simplifile.write(to: "gh-issues.json", contents: encode_backup(repos_issues))
+  |> result.map_error(WriteError)
 }
 
 pub fn main() -> Nil {
@@ -339,5 +364,9 @@ pub fn main() -> Nil {
     Ok(_) -> io.println("Done!")
     Error(MissingToken) ->
       io.println_error("GITHUB_TOKEN environment variable is not set")
+    Error(HttpError(e)) -> io.println_error(string.inspect(e))
+    Error(DecodeError(e)) -> io.println_error(string.inspect(e))
+    Error(WriteError(e)) -> io.println_error(string.inspect(e))
+    Error(Timeout) -> io.println_error("Data fetching timed out")
   }
 }
