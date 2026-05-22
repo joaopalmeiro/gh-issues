@@ -117,6 +117,12 @@
 - https://docs.github.com/en/rest/issues/issues?apiVersion=2026-03-10#list-repository-issues
 - https://github.com/gleam-lang/erlang
   - https://github.com/gleam-lang/erlang/blob/v1.3.0/CHANGELOG.md#v100-rc1---2025-04-24: "The `gleam/erlang/os` module has been removed. The `input` and `envoy` packages may be a suitable replacement."
+- https://github.com/drewolson/clip
+  - https://hex.pm/packages/clip
+- https://www.gleambits.co/guide/essentials/error.html
+  - https://github.com/lpil/snag
+  - https://hexdocs.pm/gleam_stdlib/gleam/dict.html#get
+- https://hexdocs.pm/gleam_http/4.3.0/gleam/http/request.html#new
 
 ## Commands
 
@@ -195,5 +201,39 @@ pub fn with_use() -> Result(String, Nil) {
   use password <- result.try(get_password())
   use greeting <- result.map(log_in(username, password))
   greeting <> ", " <> username
+}
+```
+
+- https://hexdocs.pm/outil/index.html
+
+```gleam
+import gleam/erlang
+import gleam/io
+import gleam/list
+import gleam/result
+import gleam/string
+import outil.{command, print_usage_and_exit}
+import outil/arg
+import outil/opt
+
+fn say_hello(args) {
+ use cmd <- command("hello", "Say hello to someone", args)
+ use name, cmd <- arg.string(cmd, "name")
+ use enthusiasm, cmd <- opt.int(cmd, "enthusiasm", "How enthusiastic?", 1)
+
+ use name <- name(cmd)
+ use enthusiasm <- enthusiasm(cmd)
+
+ let message = "Hello, " <> name <> string.repeat("!", enthusiasm)
+
+ Ok(io.println(message))
+}
+
+pub fn main() {
+ // Erlang is not required, this example just uses it for getting ARGV
+ let args = erlang.start_arguments()
+
+ say_hello(args)
+ |> result.map_error(print_usage_and_exit)
 }
 ```
