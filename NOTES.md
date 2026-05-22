@@ -113,6 +113,8 @@
 - https://gleam.run/writing-gleam/gleam-toml/
   - https://hexdocs.pm/elixir/Version.html#module-requirements
 - https://github.com/catppuccin/gleam
+- https://docs.github.com/en/rest/repos/repos?apiVersion=2026-03-10#list-repositories-for-the-authenticated-user
+- https://docs.github.com/en/rest/issues/issues?apiVersion=2026-03-10#list-repository-issues
 
 ## Commands
 
@@ -122,6 +124,14 @@ mise uninstall --all
 
 ```bash
 gleam new gh_issues
+```
+
+```bash
+mkdir -p ~/Documents/kiro-gh-issues && rsync -a --delete --exclude={'.git','.DS_Store','NOTES.md'} ~/Documents/GitHub/gh-issues/ ~/Documents/kiro-gh-issues
+```
+
+```bash
+kiro ~/Documents/kiro-gh-issues
 ```
 
 ## Snippets
