@@ -115,6 +115,8 @@
 - https://github.com/catppuccin/gleam
 - https://docs.github.com/en/rest/repos/repos?apiVersion=2026-03-10#list-repositories-for-the-authenticated-user
 - https://docs.github.com/en/rest/issues/issues?apiVersion=2026-03-10#list-repository-issues
+- https://github.com/gleam-lang/erlang
+  - https://github.com/gleam-lang/erlang/blob/v1.3.0/CHANGELOG.md#v100-rc1---2025-04-24: "The `gleam/erlang/os` module has been removed. The `input` and `envoy` packages may be a suitable replacement."
 
 ## Commands
 
