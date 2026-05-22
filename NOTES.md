@@ -87,6 +87,13 @@
   - "For example, this `PositiveInt` custom type is opaque. If other modules want to construct one they have to use the `new` function, which ensures that the integer is positive."
     - `pub opaque type PositiveInt {`
   - "Gleam lacks exceptions, macros, type classes, early returns, and a variety of other features, instead going all-in with just first-class-functions and pattern matching. This makes Gleam code easier to understand, but it can sometimes result in excessive indentation."
+  - "The `panic` keyword (...) is used to crash the program when the program has reached a point that should never be reached."
+    - "This keyword should almost never be used!"
+    - "`let assert` is another way to intentionally crash your Gleam program."
+    - "Bool `assert` is the final way to cause a panic in Gleam, used for writing test assertions."
+  - "Sometimes in our projects we want to use code written in other languages, most commonly Erlang and JavaScript, depending on which runtime is being used. Gleam's external functions and external types allow us to import and use this non-Gleam code."
+    - "Multiple external implementations can be specified for the same function, enabling the function to work on both Erlang and JavaScript."
+    - "It's possible for a function to have both a Gleam implementation and an external implementation."
 - https://gleam.run/install/
   - https://gleam.run/install/macos/gleam/asdf/
 - https://gleam.run/install/macos/editor/
@@ -158,5 +165,14 @@ fn factorial_loop(x: Int, accumulator: Int) -> Int {
     // In the previous lesson the last thing it did was multiply two ints
     _ -> factorial_loop(x - 1, accumulator * x)
   }
+}
+```
+
+```gleam
+pub fn with_use() -> Result(String, Nil) {
+  use username <- result.try(get_username())
+  use password <- result.try(get_password())
+  use greeting <- result.map(log_in(username, password))
+  greeting <> ", " <> username
 }
 ```
