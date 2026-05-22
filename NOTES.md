@@ -66,6 +66,27 @@
   - "A variant of a custom type can hold other data within it. In this case the variant is called a record."
     - "It is common to have a custom type with one variant that holds data, this is the Gleam equivalent of a struct or object in other languages."
   - "The accessor syntax can always be used for fields with the same name that are in the same position and have the same type for all variants of the custom type. Other fields can only be accessed when the compiler can tell which variant the value is, such as after pattern matching in a `case` expression."
+  - "The record update syntax can be used to create a new record from an existing one of the same type, but with some fields changed."
+    - `let teacher2 = Teacher(..teacher1, subject: "PE", room: 6)`
+    - "Gleam is an immutable language, so using the record update syntax does not mutate or otherwise change the original record."
+  - https://hexdocs.pm/gleam_stdlib/gleam/option.html
+  - "`Nil` is Gleam's unit type. It is a value that is returned by functions that have nothing else to return, as all functions must return something."
+  - "Gleam doesn't use exceptions, instead computations that can either succeed or fail return a value of the built-in `Result(value, error)` type."
+    - "`Ok`, which contains the return value of a successful computation."
+    - "`Error`, which contains the reason for a failed computation."
+  - "Commonly a Gleam program or library will define a custom type with a variant for each possible problem that can arise, along with any error information that would be useful to the programmer."
+  - "Gleam code commonly uses the `gleam/result` standard library module and `use` expressions when working with results (...)"
+  - "`fold` combines all the elements in a list into a single value by running a function left-to-right on each element, passing the result of the previous call to the next call."
+  - "Result functions are often used with pipelines to chain together multiple calls to result-returning functions."
+  - https://hexdocs.pm/gleam_stdlib/gleam/result.html
+  - "(...) Gleam's `Dict` type and functions for working with it. A dict is a collection of keys and values which other languages may call a hashmap or table."
+    - "Dicts are unordered! If it appears that the items in a dict are in a certain order, it is incidental and should not be relied upon."
+  - https://hexdocs.pm/gleam_stdlib/gleam/option.html
+  - "The option type is very similar to the result type, but it does not have an error value."
+  - "(...) types with _smart constructors_. A smart constructor is a function that constructs a value of a type, but is more restrictive than if the programmer were to use one of the type's constructors directly."
+  - "For example, this `PositiveInt` custom type is opaque. If other modules want to construct one they have to use the `new` function, which ensures that the integer is positive."
+    - `pub opaque type PositiveInt {`
+  - "Gleam lacks exceptions, macros, type classes, early returns, and a variety of other features, instead going all-in with just first-class-functions and pattern matching. This makes Gleam code easier to understand, but it can sometimes result in excessive indentation."
 - https://gleam.run/install/
   - https://gleam.run/install/macos/gleam/asdf/
 - https://gleam.run/install/macos/editor/
@@ -79,6 +100,7 @@
 - https://github.com/lpil/envoy: "(...) Gleam package for reading environment variables."
 - https://gleam.run/command-line-reference/
   - `gleam export erlang-shipment`: "Precompiled Erlang, suitable for deployment"
+- https://hex.pm/
 
 ## Commands
 
