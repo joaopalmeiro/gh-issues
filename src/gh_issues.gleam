@@ -51,19 +51,17 @@ fn parse_link_rel(
   |> list.find_map(fn(h) {
     let #(name, value) = h
 
-    io.println(name)
-    io.println(value)
-
-    case string.lowercase(name) == "link" {
+    case name == "link" {
       False -> Error(Nil)
       True ->
         value
         |> string.split(", ")
         |> list.find_map(fn(part) {
+          let rel_param = "rel=\"" <> rel <> "\""
+
           case string.split_once(part, "; ") {
-            Ok(#(url, r)) if r == "rel=\"" <> rel <> "\"" ->
+            Ok(#(url, r)) if r == rel_param ->
               url
-              |> string.trim
               |> string.drop_start(1)
               |> string.drop_end(1)
               |> string.split("page=")
@@ -83,7 +81,6 @@ fn repos_request(token: String, page: Int) -> request.Request(String) {
   |> request.set_host("api.github.com")
   |> request.set_path("/user/repos")
   |> request.set_query([
-    #("visibility", "all"),
     #("type", "owner"),
     #("per_page", "100"),
     #("page", int.to_string(page)),
@@ -108,8 +105,6 @@ fn issues_request(
   |> request.set_path("/repos/" <> full_name <> "/issues")
   |> request.set_query([
     #("state", "open"),
-    #("assignee", "*"),
-    #("type", "*"),
     #("per_page", "100"),
     #("page", int.to_string(page)),
   ])

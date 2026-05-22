@@ -140,6 +140,10 @@
 - https://hexdocs.pm/gleam_erlang/gleam/erlang/process.html#receive
   - "The `within` parameter specifies the timeout duration in milliseconds."
 - https://isaac.zone/articles/simplifile_gleam
+- `io.println(string.inspect(string.split_once(part, "; ")))`
+- `io.println(int.to_string(resp.status))`
+- `io.println(resp.body)`
+- `io.println(string.inspect(first_page))`
 
 ## Commands
 
