@@ -50,7 +50,7 @@ fn run() -> Result(Nil, String) {
     <> "  depends_on \"erlang\"\n"
     <> "\n"
     <> "  def install\n"
-    <> "    bin.install \"gh_issues\"\n"
+    <> "    bin.install \"gh_issues\" => \"gh-issues\"\n"
     <> "  end\n"
     <> "end\n"
 
