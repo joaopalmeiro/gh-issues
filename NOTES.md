@@ -100,6 +100,8 @@
   - https://www.erlang.org/
 - https://gleam.run/install/macos/editor/
 - https://gleam.run/writing-gleam/
+  - "As we're using the Erlang target we can do this using `escript`, which is part of the Erlang runtime."
+  - "(...) an escript is BEAM bytecode wrapped in a shell script. It's platform-independent, unlike a native binary."
 - https://mise-tools.jdx.dev/tools/gleam
 - https://github.com/gleam-lang/gleam/releases
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures: "A closure is the combination of a function bundled together (enclosed) with references to its surrounding state (the lexical environment). In other words, a closure gives a function access to its outer scope. In JavaScript, closures are created every time a function is created, at function creation time."

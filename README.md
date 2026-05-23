@@ -25,3 +25,13 @@ gleam format
 3. _Token name_: `gh-issues`
 4. _Repository access_ > _All repositories_
 5. _Add permissions_ > _Issues_ (and _Metadata_)
+
+## Deployment
+
+```bash
+gleam build
+```
+
+```bash
+gleam run -m gleescript
+```
