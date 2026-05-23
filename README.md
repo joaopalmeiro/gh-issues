@@ -18,6 +18,10 @@ GITHUB_TOKEN="op://Development/gh-issues/GITHUB_TOKEN" op run -- gleam run
 gleam format
 ```
 
+```bash
+gleam check --target erlang
+```
+
 ### Get a GitHub token
 
 1. Go to https://github.com/settings/personal-access-tokens
@@ -27,6 +31,8 @@ gleam format
 5. _Add permissions_ > _Issues_ (and _Metadata_)
 
 ## Deployment
+
+Bump the `version` in the [gleam.toml](gleam.toml) file.
 
 ```bash
 gleam build

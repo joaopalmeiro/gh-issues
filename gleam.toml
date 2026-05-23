@@ -1,5 +1,5 @@
 name = "gh_issues"
-version = "0.0.0"
+version = "0.1.0"
 licences = ["MIT"]
 description = "A CLI to back up all your GitHub issues."
 gleam = "== 1.16.0"
