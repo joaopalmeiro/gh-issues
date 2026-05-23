@@ -28,7 +28,7 @@ gleam check --target erlang
 2. _Generate new token_
 3. _Token name_: `gh-issues`
 4. _Repository access_ > _All repositories_
-5. _Add permissions_ > _Issues_ (and _Metadata_)
+5. _Add permissions_ > `Issues` (_Access:_ `Read-only`)
 
 ## Deployment
 
@@ -45,5 +45,13 @@ gleam run -m gleescript
 ```
 
 ```bash
-VERSION="v$(awk -F'"' '/^version/{print $2}' gleam.toml)"; GITHUB_TOKEN="op://Development/gh-issues/GITHUB_TOKEN" op run -- gh release create "$VERSION" gh_issues --title "$VERSION"
+VERSION="v$(awk -F'"' '/^version/{print $2}' gleam.toml)"; GITHUB_TOKEN="op://Development/gh-issues/RELEASE_GITHUB_TOKEN" op run -- gh release create "$VERSION" gh_issues --title "$VERSION"
 ```
+
+### Get a GitHub token
+
+1. Go to https://github.com/settings/personal-access-tokens
+2. _Generate new token_
+3. _Token name_: `Release gh-issues`
+4. _Repository access_ > _Only select repositories_ > `joaopalmeiro/gh-issues`
+5. _Add permissions_ > `Contents` (_Access:_ `Read and write`)

@@ -154,6 +154,7 @@
   - "Run `gh auth login` to authenticate with your GitHub account. Alternatively, gh will respect the `GITHUB_TOKEN` environment variable."
   - https://cli.github.com/manual/gh_release_create
     - "If a matching git tag does not yet exist, one will automatically get created from the latest state of the default branch."
+  - https://docs.github.com/en/rest/releases/releases?apiVersion=2026-03-10#create-a-release
 
 ## Commands
 
