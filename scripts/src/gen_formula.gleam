@@ -8,7 +8,7 @@ import tom
 
 fn run() -> Result(Nil, String) {
   use gleam_toml <- result.try(
-    simplifile.read("gleam.toml") |> result.map_error(string.inspect),
+    simplifile.read("../gleam.toml") |> result.map_error(string.inspect),
   )
   use toml <- result.try(
     tom.parse(gleam_toml) |> result.map_error(string.inspect),
@@ -19,10 +19,13 @@ fn run() -> Result(Nil, String) {
   )
 
   use escript_data <- result.try(
-    simplifile.read_bits("gh_issues") |> result.map_error(string.inspect),
+    simplifile.read_bits("../gh_issues") |> result.map_error(string.inspect),
   )
 
-  let sha = crypto.hash(crypto.Sha256, escript_data) |> bit_array.base16_encode
+  let sha =
+    crypto.hash(crypto.Sha256, escript_data)
+    |> bit_array.base16_encode
+    |> string.lowercase
 
   let download_url =
     "https://github.com/joaopalmeiro/gh-issues/releases/download/v"
@@ -51,7 +54,8 @@ fn run() -> Result(Nil, String) {
     <> "  end\n"
     <> "end\n"
 
-  simplifile.write("gh-issues.rb", formula) |> result.map_error(string.inspect)
+  simplifile.write("../gh-issues.rb", formula)
+  |> result.map_error(string.inspect)
 }
 
 pub fn main() {

@@ -158,6 +158,7 @@
 - https://marketplace.visualstudio.com/items?itemName=giovanicascaes.calm-days-sober-nights-theme-vscode
 - https://apl385.com/fonts/
 - https://mtlynch.io/notes/gleam-first-impressions/
+- https://formulae.brew.sh/formula/erlang
 
 ## Commands
 

@@ -2,6 +2,16 @@
 
 A CLI to back up all your GitHub issues.
 
+## Usage
+
+```bash
+brew install joaopalmeiro/tap/gh-issues
+```
+
+```bash
+GITHUB_TOKEN="op://Development/gh-issues/GITHUB_TOKEN" op run -- gh-issues
+```
+
 ## Development
 
 Install [mise](https://mise.jdx.dev/getting-started.html), [GitHub CLI](https://github.com/cli/cli#installation), [1Password](https://1password.com/downloads/), and [1Password CLI](https://developer.1password.com/docs/cli/get-started/) (if necessary).
@@ -49,7 +59,11 @@ VERSION="v$(awk -F'"' '/^version/{print $2}' gleam.toml)"; GITHUB_TOKEN="op://De
 ```
 
 ```bash
-cd scripts/ && gleam run && cd ..
+cd scripts/ && gleam run -m gen_formula && cd ..
+```
+
+```bash
+cp ~/Documents/GitHub/gh-issues.rb ~/Documents/GitHub/homebrew-tap/Formula/gh-issues.rb
 ```
 
 ### Get a GitHub token
