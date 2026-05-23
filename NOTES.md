@@ -174,6 +174,10 @@ mkdir -p ~/Documents/kiro-gh-issues && rsync -a --delete --exclude={'.git','.DS_
 kiro ~/Documents/kiro-gh-issues
 ```
 
+```bash
+shasum -a 256 gh_issues
+```
+
 ## Snippets
 
 ```gleam
