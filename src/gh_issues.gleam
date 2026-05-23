@@ -81,7 +81,8 @@ fn repos_request(token: String, page: Int) -> request.Request(String) {
   |> request.set_host("api.github.com")
   |> request.set_path("/user/repos")
   |> request.set_query([
-    #("type", "owner"),
+    #("visibility", "all"),
+    #("affiliation", "owner"),
     #("per_page", "100"),
     #("page", int.to_string(page)),
   ])
@@ -322,6 +323,12 @@ fn run() -> Result(Nil, AppError) {
   use repos <- result.try(fetch_repos(token))
 
   use repos_issues <- result.try(fetch_all_issues(token, repos))
+
+  let num_repos = list.length(repos)
+  let num_issues =
+    list.fold(repos_issues, 0, fn(acc, ri) { acc + list.length(ri.issues) })
+  io.println("Repos: " <> int.to_string(num_repos))
+  io.println("Issues: " <> int.to_string(num_issues))
 
   simplifile.write(to: "gh-issues.json", contents: encode_backup(repos_issues))
   |> result.map_error(WriteError)
