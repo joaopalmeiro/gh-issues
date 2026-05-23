@@ -14,10 +14,10 @@ gleam_json = "== 3.1.0"
 gleam_stdlib = "== 1.0.2"
 simplifile = "== 2.4.0"
 
+[dev_dependencies]
+gleescript = "== 1.5.2"
+
 [repository]
 type = "github"
 user = "joaopalmeiro"
 repo = "gh-issues"
-
-[dev_dependencies]
-gleescript = "== 1.5.2"

@@ -48,6 +48,10 @@ gleam run -m gleescript
 VERSION="v$(awk -F'"' '/^version/{print $2}' gleam.toml)"; GITHUB_TOKEN="op://Development/gh-issues/RELEASE_GITHUB_TOKEN" op run -- gh release create "$VERSION" gh_issues --title "$VERSION"
 ```
 
+```bash
+cd scripts/ && gleam run && cd ..
+```
+
 ### Get a GitHub token
 
 1. Go to https://github.com/settings/personal-access-tokens

@@ -155,6 +155,9 @@
   - https://cli.github.com/manual/gh_release_create
     - "If a matching git tag does not yet exist, one will automatically get created from the latest state of the default branch."
   - https://docs.github.com/en/rest/releases/releases?apiVersion=2026-03-10#create-a-release
+- https://marketplace.visualstudio.com/items?itemName=giovanicascaes.calm-days-sober-nights-theme-vscode
+- https://apl385.com/fonts/
+- https://mtlynch.io/notes/gleam-first-impressions/
 
 ## Commands
 
