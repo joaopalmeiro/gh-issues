@@ -150,6 +150,10 @@
 - `io.println(string.inspect(first_page))`
 - https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2026-03-10#about-secondary-rate-limits
 - https://github.com/lpil/tom
+- https://cli.github.com/manual/
+  - "Run `gh auth login` to authenticate with your GitHub account. Alternatively, gh will respect the `GITHUB_TOKEN` environment variable."
+  - https://cli.github.com/manual/gh_release_create
+    - "If a matching git tag does not yet exist, one will automatically get created from the latest state of the default branch."
 
 ## Commands
 

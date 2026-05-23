@@ -4,7 +4,7 @@ A CLI to back up all your GitHub issues.
 
 ## Development
 
-Install [mise](https://mise.jdx.dev/getting-started.html), [1Password](https://1password.com/downloads/), and [1Password CLI](https://developer.1password.com/docs/cli/get-started/) (if necessary).
+Install [mise](https://mise.jdx.dev/getting-started.html), [GitHub CLI](https://github.com/cli/cli#installation), [1Password](https://1password.com/downloads/), and [1Password CLI](https://developer.1password.com/docs/cli/get-started/) (if necessary).
 
 ```bash
 mise install && gleam --version
@@ -34,10 +34,16 @@ gleam check --target erlang
 
 Bump the `version` in the [gleam.toml](gleam.toml) file.
 
+Commit and push changes.
+
 ```bash
 gleam build
 ```
 
 ```bash
 gleam run -m gleescript
+```
+
+```bash
+VERSION="v$(awk -F'"' '/^version/{print $2}' gleam.toml)"; GITHUB_TOKEN="op://Development/gh-issues/GITHUB_TOKEN" op run -- gh release create "$VERSION" gh_issues --title "$VERSION"
 ```
