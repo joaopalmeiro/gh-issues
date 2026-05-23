@@ -63,7 +63,7 @@ cd scripts/ && gleam run -m gen_formula && cd ..
 ```
 
 ```bash
-cp ~/Documents/GitHub/gh-issues.rb ~/Documents/GitHub/homebrew-tap/Formula/gh-issues.rb
+cp ~/Documents/GitHub/gh-issues/gh-issues.rb ~/Documents/GitHub/homebrew-tap/Formula/gh-issues.rb
 ```
 
 ### Get a GitHub token
