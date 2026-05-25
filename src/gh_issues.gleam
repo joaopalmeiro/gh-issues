@@ -1,4 +1,5 @@
 import envoy
+import gaveta
 import gleam/dynamic/decode
 import gleam/erlang/process
 import gleam/http
@@ -41,38 +42,6 @@ type Issue {
 
 type RepoIssues {
   RepoIssues(repo: String, issues: List(Issue))
-}
-
-fn parse_link_rel(
-  headers: List(#(String, String)),
-  rel: String,
-) -> option.Option(Int) {
-  headers
-  |> list.find_map(fn(h) {
-    let #(name, value) = h
-
-    case name == "link" {
-      False -> Error(Nil)
-      True ->
-        value
-        |> string.split(", ")
-        |> list.find_map(fn(part) {
-          let rel_param = "rel=\"" <> rel <> "\""
-
-          case string.split_once(part, "; ") {
-            Ok(#(url, r)) if r == rel_param ->
-              url
-              |> string.drop_start(1)
-              |> string.drop_end(1)
-              |> string.split("page=")
-              |> list.last
-              |> result.try(int.parse)
-            _ -> Error(Nil)
-          }
-        })
-    }
-  })
-  |> option.from_result
 }
 
 fn repos_request(token: String, page: Int) -> request.Request(String) {
@@ -183,7 +152,7 @@ fn fetch_repos(token: String) -> Result(List(Repo), AppError) {
 
   let first_page = list.filter(data, fn(r) { !r.fork })
 
-  case parse_link_rel(resp.headers, "last") {
+  case gaveta.extract_page_from_link(resp.headers, "last") {
     option.None -> Ok(first_page)
     option.Some(last) -> {
       let parent = process.new_subject()
@@ -245,7 +214,7 @@ fn fetch_issues_page(
 
   let all = list.append(acc, page_issues)
 
-  case parse_link_rel(resp.headers, "next") {
+  case gaveta.extract_page_from_link(resp.headers, "next") {
     option.None -> Ok(all)
     option.Some(next) -> fetch_issues_page(token, full_name, next, all)
   }
