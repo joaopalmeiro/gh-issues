@@ -159,6 +159,7 @@
 - https://apl385.com/fonts/
 - https://mtlynch.io/notes/gleam-first-impressions/
 - https://formulae.brew.sh/formula/erlang
+- https://gleam.run/documentation/conventions-patterns-and-anti-patterns/#Check-then-assert: "Check-then-assert is a pattern common in procedural languages where one performs a check that a value is in some desired state, and then performs some action afterwards with the knowledge that it is in the desired state. This is an anti-pattern in functional languages like Gleam, and it should never be done."
 
 ## Commands
 

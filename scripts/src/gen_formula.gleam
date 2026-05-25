@@ -58,9 +58,9 @@ fn run() -> Result(Nil, String) {
   |> result.map_error(string.inspect)
 }
 
-pub fn main() {
+pub fn main() -> Nil {
   case run() {
     Ok(_) -> io.println("Done!")
-    Error(e) -> io.println(e)
+    Error(e) -> io.println_error(e)
   }
 }

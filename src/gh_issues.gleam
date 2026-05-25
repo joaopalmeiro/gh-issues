@@ -166,14 +166,7 @@ fn fetch_repos_page(token: String, page: Int) -> Result(List(Repo), AppError) {
     |> result.map_error(DecodeError),
   )
 
-  Ok(
-    list.filter_map(data, fn(r) {
-      case r.fork {
-        True -> Error(Nil)
-        False -> Ok(Repo(full_name: r.full_name, fork: r.fork))
-      }
-    }),
-  )
+  Ok(list.filter(data, fn(r) { !r.fork }))
 }
 
 fn fetch_repos(token: String) -> Result(List(Repo), AppError) {
@@ -188,13 +181,7 @@ fn fetch_repos(token: String) -> Result(List(Repo), AppError) {
     |> result.map_error(DecodeError),
   )
 
-  let first_page =
-    list.filter_map(data, fn(r) {
-      case r.fork {
-        True -> Error(Nil)
-        False -> Ok(Repo(full_name: r.full_name, fork: r.fork))
-      }
-    })
+  let first_page = list.filter(data, fn(r) { !r.fork })
 
   case parse_link_rel(resp.headers, "last") {
     option.None -> Ok(first_page)
@@ -250,9 +237,9 @@ fn fetch_issues_page(
   let page_issues =
     list.filter_map(data, fn(pair) {
       let #(issue, pull_request) = pair
-      case option.is_none(pull_request) {
-        True -> Ok(issue)
-        False -> Error(Nil)
+      case pull_request {
+        option.None -> Ok(issue)
+        option.Some(_) -> Error(Nil)
       }
     })
 
